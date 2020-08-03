@@ -1,0 +1,36 @@
+testSets {
+	integrationTest { dirName = 'integration-test' }
+	functionalTest { dirName = 'functional-test' }
+}
+
+project.integrationTest { outputs.upToDateWhen { false
+	} }
+project.functionalTest { outputs.upToDateWhen { false
+	} }
+
+dependencies {
+	integrationTestCompile (subprojects*.sourceSets.test.output)
+	functionalTestCompile (subprojects*.sourceSets.test.output)
+	integrationTestCompile sourceSets.test.output
+	functionalTestCompile sourceSets.test.output
+}
+
+test {
+	testLogging {
+		showStandardStreams = true
+	}
+}
+integrationTest {
+	mustRunAfter test
+	testLogging {
+		showStandardStreams = true
+	}
+}
+check.dependsOn integrationTest
+functionalTest {
+	mustRunAfter integrationTest
+	testLogging {
+		showStandardStreams = true
+	}
+}
+check.dependsOn functionalTest

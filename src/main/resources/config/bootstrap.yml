@@ -1,0 +1,8 @@
+spring:
+  main.banner-mode: off
+  application.name: ${SPRING_APPLICATION_NAME:kafka-streams-retry}
+  cloud:
+    config:
+      enabled: false
+
+logging.pattern.level: "%5p [${spring.zipkin.service.name:${spring.application.name:-}},%X{user:-},%X{X-B3-TraceId:-},%X{X-B3-SpanId:-},%X{X-Span-Export:-}]"

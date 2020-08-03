@@ -1,0 +1,8 @@
+task renameApiJson(type: Copy) {
+    from "${buildDir}/"
+    include "openapi.json"
+    into "${buildDir}/"
+    rename "openapi.json", "OPENAPI-${project.name}-${project.version}.json"
+}
+
+functionalTest.finalizedBy renameApiJson

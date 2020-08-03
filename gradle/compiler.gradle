@@ -1,0 +1,20 @@
+allprojects {
+	gradle.projectsEvaluated {
+		tasks.withType(JavaCompile) {
+			sourceCompatibility = JavaVersion.VERSION_11
+			targetCompatibility = JavaVersion.VERSION_11
+
+			options.encoding = 'UTF-8'
+			options.compilerArgs << "-Xlint:unchecked"
+			options.compilerArgs << "-Xlint:deprecation"
+			options.compilerArgs << "-Xlint:cast"
+			options.compilerArgs << "-Xlint:divzero"
+			options.compilerArgs << "-Xlint:empty"
+			options.compilerArgs << "-Xlint:fallthrough"
+			options.compilerArgs << "-Xlint:finally"
+			options.compilerArgs << "-Xlint:overrides"
+			options.compilerArgs << "-Xlint:path"
+			options.compilerArgs << "-Xlint:serial"
+		}
+	}
+}

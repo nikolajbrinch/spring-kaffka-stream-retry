@@ -1,0 +1,62 @@
+buildscript {
+  ext {
+    springBootVersion = '2.3.2.RELEASE'
+    springCloudVersion = 'Hoxton.SR6'
+    springDataVersion = 'Neumann-SR1'
+  }
+}
+
+plugins {
+  id 'org.springframework.boot' version "${springBootVersion}"
+  id 'java-library'
+  id 'groovy'
+  id 'maven-publish'
+  id 'org.unbroken-dome.test-sets' version '3.0.1'
+}
+
+configurations.all {
+  resolutionStrategy.cacheChangingModulesFor 0, 'seconds'
+  resolutionStrategy.cacheDynamicVersionsFor 0, 'seconds'
+}
+
+apply plugin: 'maven-publish'
+apply plugin: 'java-library'
+apply plugin: 'groovy'
+apply plugin: 'org.unbroken-dome.test-sets'
+apply plugin: 'jacoco'
+
+configurations {
+  compileOnly {
+    extendsFrom annotationProcessor
+  }
+
+  bom
+  compileOnly.extendsFrom(bom)
+  annotationProcessor.extendsFrom(bom)
+  implementation.extendsFrom(bom)
+}
+
+dependencies {
+  bom platform (group: 'org.springframework.boot', name: 'spring-boot-dependencies', version: "${springBootVersion}")
+  bom platform (group: 'org.springframework.data', name: 'spring-data-releasetrain', version: "${springDataVersion}")
+  bom platform (group: 'org.springframework.cloud', name: 'spring-cloud-dependencies', version: "${springCloudVersion}")
+  
+  annotationProcessor (group: 'org.projectlombok', name: 'lombok')
+  compileOnly (group: 'org.projectlombok', name: 'lombok')
+
+  implementation (group: 'org.springframework.boot', name: 'spring-boot-starter-web')
+  implementation (group: 'org.springframework.boot', name: 'spring-boot-starter-actuator')
+  implementation (group: 'org.springframework.data', name: 'spring-data-rest-webmvc')
+
+  implementation (group: 'org.springframework.cloud', name: 'spring-cloud-starter-sleuth')
+  implementation (group: 'org.springframework.cloud', name: 'spring-cloud-starter-zipkin')
+  implementation (group: 'org.springframework.cloud', name: 'spring-cloud-stream')
+  implementation (group: 'org.springframework.cloud', name: 'spring-cloud-stream-binder-kafka')
+  implementation (group: 'org.springframework.kafka', name: 'spring-kafka')
+  
+  implementation (group: 'org.springframework', name: 'spring-messaging')
+}
+
+springBoot {
+  buildInfo()
+}

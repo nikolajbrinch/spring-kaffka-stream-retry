@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration scan="true">
+	<include
+		resource="org/springframework/boot/logging/logback/base.xml" />
+	<jmxConfigurator />
+	<contextListener
+		class="ch.qos.logback.classic.jul.LevelChangePropagator">
+		<resetJUL>true</resetJUL>
+	</contextListener>
+	
+	<logger name="org.apache.kafka.clients.admin.AdminClientConfig" level="WARN"/>
+	<logger name="org.apache.kafka.clients.consumer.ConsumerConfig" level="WARN"/>
+	<logger name="org.apache.kafka.clients.producer.ProducerConfig" level="WARN"/>
+	
+	<logger name="org.springframework.kafka.listener.DeadLetterPublishingRecoverer" level="DEBUG"/>
+	<logger name="org.springframework.kafka.listener.DefaultAfterRollbackProcessor" level="DEBUG"/>
+
+	<springProfile name="!dev">
+		<root level="INFO">
+			<appender-ref ref="CONSOLE" />
+		</root>
+	</springProfile>
+</configuration>

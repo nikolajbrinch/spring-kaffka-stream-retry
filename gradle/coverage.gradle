@@ -1,0 +1,22 @@
+def testTaskName = 'check' // could be either 'test' or 'check'
+task coverageMergedReport(type: JacocoReport) {
+    dependsOn { allprojects.tasks[testTaskName] }
+    allprojects {
+        executionData fileTree("${projectDir}").include("**/build/jacoco/*.exec")
+        sourceSets it.sourceSets.main
+    }
+    reports {
+        xml.enabled true
+        xml.destination file("${rootProject.buildDir}/reports/jacoco/test/jacocoTestReport.xml")
+    }
+
+    doLast {
+        println "Used jacoco binary reports from: ${executionData.files.join(', ')}"
+    }
+}
+
+sonarqube {
+    properties {
+        property 'sonar.coverage.jacoco.xmlReportPaths', file("${rootProject.buildDir}/reports/jacoco/test/jacocoTestReport.xml")
+    }
+}

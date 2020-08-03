@@ -1,0 +1,24 @@
+task extractSonarLibraries() {
+  doLast {
+    def files = []
+
+    project.configurations.each { configuration ->
+      if (configuration.canBeResolved) {
+        configuration.resolvedConfiguration.resolvedArtifacts.each { ResolvedArtifact artifact ->
+          ModuleVersionIdentifier moduleId = artifact.moduleVersion.id
+          if (moduleId.group == 'org.projectlombok') {
+            files << artifact.file
+          }
+        }
+      }
+    }
+
+    copy {
+      from files
+      into "${rootProject.buildDir}/sonar-libraries"
+    }
+  }
+}
+
+build.dependsOn extractSonarLibraries
+extractSonarLibraries.mustRunAfter check

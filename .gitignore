@@ -1,0 +1,12 @@
+.classpath
+.project
+.settings
+.gradle
+bin
+build
+out
+target
+.idea
+.iml
+data
+generated
